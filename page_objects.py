@@ -4,10 +4,13 @@ from helpers import switch_to_tab
 from page_elements import Button, WaitingElement
 
 
-class MainPage:
+class _BasePage:
 
     def __init__(self, driver: webdriver):
         self._driver = driver
+
+
+class MainPage(_BasePage):
 
     @property
     def search_field(self):
@@ -71,20 +74,14 @@ class _SearchResult(WaitingElement):
         return ResultPage(self._driver)
 
 
-class ResultPage:
-
-    def __init__(self, driver: webdriver):
-        self._driver = driver
+class ResultPage(_BasePage):
 
     @property
     def link(self):
         return self._driver.current_url
 
 
-class TopicPage:
-
-    def __init__(self, driver: webdriver):
-        self._driver = driver
+class TopicPage(_BasePage):
 
     def __getitem__(self, item: int):
         return _Topic(self._driver, int(item) - 1)
@@ -100,10 +97,7 @@ class _Topic(WaitingElement):
         super().__init__(driver, f'div.PopularRequestList-Item_pos_{int(topic_number)}')
 
 
-class PicturePage:
-
-    def __init__(self, driver: webdriver):
-        self._driver = driver
+class PicturePage(_BasePage):
 
     def __getitem__(self, item: int):
         return _PicturePreview(self._driver, int(item) - 1)
