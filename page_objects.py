@@ -58,7 +58,7 @@ class _SearchResult(WaitingElement):
     def __init__(self, driver: webdriver, index: int):
         super().__init__(driver, f'//li[@class="serp-item"][{int(index)}]')
         self._title_element = self.find_element_by_css_selector('h2')
-        self._link_element = self.find_element_by_css_selector('a.link > b')
+        self._link_element = self.find_element_by_xpath('//a[contains(@class, "link")]/b')
 
     @property
     def title(self):
